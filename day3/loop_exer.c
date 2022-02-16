@@ -24,15 +24,14 @@ static void rates() {
 *Title:从终端输入数字，输出偶数的个数以及平均值，奇数的个数以及平均值
 */
 void eo_num() {
-	int arr[10] = { 0 };
+	int arr[5] = { 0 };
 	int num=0,i=0,j=0,sum_eve=0,count=0,sum_old=0;
 	printf("Input number:\n");
-	while (scanf("%d",&num)!=EOF) {
-		arr[i] = num;
-		i++;
+	for (i = 0; i < 5;i++) {
+		scanf("%d",&arr[i]);
 	}
 	num = sizeof(arr) / sizeof(int);
-	for (j = 0; j <= num;j++) {
+	for (j = 0; j < num;j++) {
 		if (arr[j] % 2 == 0) {
 			sum_eve += arr[j];
 			count++;
@@ -41,14 +40,26 @@ void eo_num() {
 			sum_old += arr[j];
 		}
 	}
-	printf("even_num=%d,even_avg=%d\n",count,sum_eve/count);
-	printf("old_num=%d,old_avg=%d\n",num-count,sum_old/(num-count));
+	printf("even_num=%d,even_avg=%d\n",count,(sum_eve/count));
+	printf("old_num=%d,old_avg=%d\n",num-count,(sum_old/(num-count)));
 }
 
 /**
-*Title：从终端输入若干字母，对其中的元音字母进行统计
+*Title：从终端输入若干字母，对其中的元音字母进行统计(a e i o u)
 */
+void vowel_count() {
+	char arr[10];
+	int i, count=0;
+	char ch;
+	for (i = 0; i < 10; i++) {
+		scanf("%c",&arr[i]);
+		if (arr[i]=='a'||arr[i]=='e'||arr[i]=='i'||arr[i]=='o'||arr[i]=='u') {
+			count++;
+		}
+	}
+	printf("%d",count);
 
+}
 /*
 *title：输出斐波那契额数列的前40项
 *斐波那契:1,1,2,3,5,8,13...
@@ -115,8 +126,9 @@ void print() {
 int main() {
 	//rates();
 	//eo_num();
+	vowel_count();
 	//print();
 	//mul_tab();
-	fib(40);
+	//fib(40);
 	exit(0);
 }
