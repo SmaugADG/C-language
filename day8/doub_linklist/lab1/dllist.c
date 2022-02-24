@@ -68,12 +68,12 @@ void dllist_travel(LLIST* llp,dllist_op* op) {
 //É¾³ı
 int dllist_delete(LLIST* llp, const void* key, dllinst_cmp* op) {
 	struct dllist_node_st* node;
-	node = dllist_find(llp,key,op);
+	node = find_(llp,key,op);
 	if (node==&llp->head) {
 		return -1;
 	}
-	node->next->prev = node->prev;//´íÎó£¡·Ã´æ³åÍ»Îª½â¾ö
 	node->prev->next = node->next;
+	node->next->prev = node->prev;//´íÎó£¡·Ã´æ³åÍ»Î´½â¾ö
 	free(node->data);
 	free(node);
 	node = NULL;
@@ -82,7 +82,7 @@ int dllist_delete(LLIST* llp, const void* key, dllinst_cmp* op) {
 //»ñÈ¡ÔªËØ
 int dllist_fetch(LLIST* llp, const void* key, dllinst_cmp* op, void* data) {
 	list_node* node;
-	node = dllist_find;
+	node = find_(llp, key, op);
 	if (node==&llp->head) {
 		return -1;
 	}
