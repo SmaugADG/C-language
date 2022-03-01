@@ -1,6 +1,8 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<math.h>
+#include"queue/dllist.h"
+#include"queue/queue.h"
 #define NAMESIZE 32
 struct score_st {
 	int id;
@@ -86,7 +88,7 @@ static void turn_right(struct node_st** root) {
 *功能函数
 */
 //插入
-static int insert(struct node_st** root,struct score_st*data) {
+ int insert(struct node_st** root,struct score_st*data) {
 	struct node_st* node;
 
 	if ((*root)==NULL) {
@@ -110,7 +112,7 @@ static int insert(struct node_st** root,struct score_st*data) {
 }
 
 //查找
-static struct score_st* find(struct node_st* root,const int id) {
+ struct score_st* find(struct node_st* root,const int id) {
 	if (root==NULL) {
 		return NULL;
 	}
@@ -127,7 +129,7 @@ static struct score_st* find(struct node_st* root,const int id) {
 
 
 //平衡二叉树
-static void balance(struct node_st** root) {
+ void balance(struct node_st** root) {
 	if (*root==NULL) {
 		return;
 	}
@@ -149,7 +151,7 @@ static void balance(struct node_st** root) {
 	balance(&(*root)->rchild);
 }
 //删除
-static void delete(struct node_st** root,int id) {
+ void delete(struct node_st** root,int id) {
 	struct node_st** node = root;
 	struct node_st* cur = NULL;
 	while (*node!=NULL&&(*node)->data.id!=id) {
@@ -174,6 +176,60 @@ static void delete(struct node_st** root,int id) {
 	}
 }
 
+//遍历
+void travel(struct node_st*root) {
+	if (root ==NULL) {
+		return;
+	}
+	//先序
+	print_s(&root->data);
+	travel(root->lchild);
+	travel(root->rchild);
+	////中序
+	//travel(root->lchild);
+	//print_s(&root->data);
+	//travel(root->rchild);
+	////后序
+	//travel(root->lchild);
+	//travel(root->rchild);
+	//print_s(&root->data);
+}
+//遍历-层序遍历
+void travel_level(struct node_st* root) {
+	int ret;
+	Queue* qu;
+	struct node_st *cur;
+	qu = queue_create(sizeof(*qu));
+	if (qu==NULL) {
+		return;
+	}
+	queue_enqueue(qu,&root);
+	while (1) {
+		ret = queue_dequeue(qu,&cur);//ERROR！dequeue之后qu丢了
+		if (ret!=0) {
+			break;
+		}
+		print_s(&cur->data);
+		if (cur->lchild!=NULL) {
+			queue_enqueue(qu,&cur->lchild);
+		}
+		if (cur->rchild!=NULL) {
+			queue_enqueue(qu,&cur->rchild);
+		}
+	}
+	queue_destory(qu);
+}
+//销毁
+void destory(struct node_st* root) {
+	struct node_st* cur;
+	if (root==NULL) {
+		return;
+	}
+	destory(root->lchild);
+	destory(root->rchild);
+	free(root);
+}
+
 int main() {
 	int arr[] = { 1,2,3,7,6,5,9,8,4 };
 	int i,k;
@@ -188,17 +244,17 @@ int main() {
 		insert(&tree,&tmp);
 	}
 	//打印显示
-	draw(tree);
+	//draw(tree);
 
 	//平衡二叉树
 	balance(&tree);
-	draw(tree);
-
+	//draw(tree);
+	
 	//删除
-	k = 5;
+	/*k = 5;
 	delete(&tree,k);
 	draw(tree);
-	/*balance(&tree);
+	balance(&tree);
 	draw(tree);*/
 
 	//查找
@@ -211,6 +267,13 @@ int main() {
 	else {
 		print_s(data);
 	}*/
-	
+
+	//遍历 
+	//travel(tree);
+	//遍历-层序
+	//travel_level(tree);
+	//销毁
+	destory(tree);
+	tree = NULL;
 	exit(0);
 }
