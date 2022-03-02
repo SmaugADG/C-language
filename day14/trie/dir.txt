@@ -1,0 +1,4 @@
+ant:a small insect that lives in group
+buttlerfly:a flying insect eith a long thin body
+cobra:a highly dangeroud snake
+donkey:an animal wuith short legs and long ear
